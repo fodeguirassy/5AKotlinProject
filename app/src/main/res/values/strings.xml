@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FlappyBird</string>
+    <string name="cloudbackground">cloudBackground</string>
+    <string name="appTitle">Flappy Bird</string>
 </resources>

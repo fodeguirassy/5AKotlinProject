@@ -4,15 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/blueSky">
 
-    <TextView
+    <ImageView
+        android:id="@+id/cloudOneBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/nuage"
+        app:layout_constraintTop_toBottomOf="@id/guidelineCloud"
+        android:contentDescription="@string/cloudbackground" />
+
+    <ImageView
+        android:id="@+id/cloudTwoBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nuage"
+        app:layout_constraintLeft_toRightOf="@id/cloudOneBackground"
+        android:contentDescription="@string/cloudbackground"
+        />
+
+    <ImageView
+        android:id="@+id/cloudThreeBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nuage"
+        app:layout_constraintTop_toBottomOf="@id/cloudTwoBackground"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iconBird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flappyicon"
+        app:layout_constraintTop_toBottomOf="@+id/guidelinBirdIcon"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/appTitle"
+        app:layout_constraintTop_toBottomOf="@id/guidelineAppTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="60sp"
+        android:textColor="@color/colorAppTitle"
+        />
+
+    <ImageButton
+        android:id="@+id/buttonPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption"
+        app:layout_constraintRight_toLeftOf="@id/buttonHighScore"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/icon_play"
+        android:background="@color/blueSky"/>
+
+    <ImageButton
+        android:id="@+id/buttonHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/buttonPlay"
+        android:src="@drawable/icon_highscore"
+        android:background="@drawable/icon_highscore"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineCloud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineAppTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinBirdIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineButtonOption"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65"/>
+
+
+
+
 
 </android.support.constraint.ConstraintLayout>
