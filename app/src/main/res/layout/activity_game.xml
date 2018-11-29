@@ -21,8 +21,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/nuage"
         app:layout_constraintLeft_toRightOf="@id/cloudOneBackground"
-        android:contentDescription="@string/cloudbackground"
-        />
+        android:contentDescription="@string/cloudbackground" />
 
     <ImageView
         android:id="@+id/cloudThreeBackground"
@@ -41,6 +40,24 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+    <ImageButton
+        android:id="@+id/buttonUp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@id/guidelinePad"
+        android:src="@drawable/up_button"
+        android:background="@color/blueSky"/>
+
+
+    <ImageButton
+        android:id="@+id/buttonDown"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/guidelinePad"
+        android:src="@drawable/down_button"
+        android:background="@color/blueSky"/>
+
+
     <android.support.constraint.Guideline
         android:id="@+id/guidelinBirdIcon"
         android:layout_width="match_parent"
@@ -54,5 +71,12 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinePad"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"/>
 
 </android.support.constraint.ConstraintLayout>
