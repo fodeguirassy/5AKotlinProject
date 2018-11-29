@@ -1,12 +1,15 @@
 package projetkotlin.a5a.com.flappybird
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageButton
 import android.widget.TextView
+import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,8 +20,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var appTitle = findViewById<TextView>(R.id.appTitle)
+        var buttonPlay = findViewById<ImageButton>(R.id.buttonPlay)
 
         setFont(appTitle,"GrinchedRegular.otf")
+
+        buttonPlay.setOnClickListener{
+            val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun setFont(textView: TextView, fontName: String?) {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameActivity"
+    android:background="@color/blueSky">
+
+    <ImageView
+        android:id="@+id/cloudOneBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nuage"
+        app:layout_constraintTop_toBottomOf="@id/guidelineCloud"
+        android:contentDescription="@string/cloudbackground" />
+
+    <ImageView
+        android:id="@+id/cloudTwoBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nuage"
+        app:layout_constraintLeft_toRightOf="@id/cloudOneBackground"
+        android:contentDescription="@string/cloudbackground"
+        />
+
+    <ImageView
+        android:id="@+id/cloudThreeBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nuage"
+        app:layout_constraintTop_toBottomOf="@id/cloudTwoBackground"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iconBird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flappyicon"
+        app:layout_constraintTop_toBottomOf="@+id/guidelinBirdIcon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinBirdIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineCloud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1"/>
+
+</android.support.constraint.ConstraintLayout>
