@@ -1,0 +1,8 @@
+package projetkotlin.a5a.com.flappybird.feat.play
+
+import projetkotlin.a5a.com.flappybird.mvp.BasePresenter
+
+
+class PlayPresenter : BasePresenter {
+
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_start"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blueSky">
+
+    <ImageView
+        android:id="@+id/cloudOneBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/cloudbackground"
+        android:src="@drawable/nuage"
+        app:layout_constraintTop_toBottomOf="@id/guidelineCloud" />
+
+    <ImageView
+        android:id="@+id/cloudTwoBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/cloudbackground"
+        android:src="@drawable/nuage"
+        app:layout_constraintLeft_toRightOf="@id/cloudOneBackground" />
+
+    <ImageView
+        android:id="@+id/cloudThreeBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nuage"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cloudTwoBackground" />
+
+    <ImageView
+        android:id="@+id/iconBird"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flappyicon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidelinBirdIcon" />
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/appTitle"
+        android:textColor="@color/colorAppTitle"
+        android:textSize="60sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidelineAppTitle" />
+
+    <ImageButton
+        android:id="@+id/buttonPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blueSky"
+        android:src="@drawable/icon_play"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/buttonHighScore"
+        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption" />
+
+    <ImageButton
+        android:id="@+id/buttonHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_highscore"
+        android:src="@drawable/icon_highscore"
+        app:layout_constraintLeft_toRightOf="@id/buttonPlay"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineCloud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineAppTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelinBirdIcon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineButtonOption"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+
+</android.support.constraint.ConstraintLayout>

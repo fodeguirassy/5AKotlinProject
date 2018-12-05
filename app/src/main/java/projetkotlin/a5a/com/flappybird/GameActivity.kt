@@ -1,28 +1,19 @@
 package projetkotlin.a5a.com.flappybird
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.support.v4.view.ViewCompat.setTranslationX
-import android.opengl.ETC1.getWidth
 import android.animation.ValueAnimator
-import android.graphics.Point
-import android.util.Log
-import android.view.Window
-import android.view.WindowManager
+import android.os.Bundle
 import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.util.DisplayMetrics
-
-
+import androidx.appcompat.app.AppCompatActivity
 
 
 class GameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        //this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_game)
 
         val cloudOne = findViewById<ImageView>(R.id.cloudOneBackground)

@@ -3,11 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/navHostFragment">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="projetkotlin.a5a.com.flappybird.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+    <fragment
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@id/navHostFragment">
+        <action app:destination="@id/fragment_start"
+            android:id="@+id/action_host_to_start"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_start"
+        android:name="projetkotlin.a5a.com.flappybird.feat.start.StartFragment"
+        android:label="StartFragment">
+        <action app:destination="@id/fragment_play"
+            android:id="@+id/action_start_to_play"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_play"
+        android:name="projetkotlin.a5a.com.flappybird.feat.play.PlayFragment"
+        android:label="PlayFragment"
+        tools:layout="@layout/fragment_play">
+        <action app:destination="@id/fragment_start"
+            android:id="@+id/action_play_to_start"/>
+    </fragment>
+
 </navigation>
