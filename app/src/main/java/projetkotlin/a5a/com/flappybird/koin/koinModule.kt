@@ -8,9 +8,8 @@ import projetkotlin.a5a.com.flappybird.feat.start.StartPresenter
 
 val koinModule = module {
 
-    factory { PlayPresenter() }
+    factory { PlayPresenter(get() as PlayFragment) }
     factory { PlayFragment() }
     factory { StartPresenter() }
     factory { StartFragment() }
-
 }

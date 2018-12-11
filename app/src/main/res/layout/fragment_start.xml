@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blueSky">
+    android:background="@color/blueSky"
+    tools:background="@color/blueSky">
 
     <ImageView
         android:id="@+id/cloudOneBackground"
@@ -12,6 +14,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/cloudbackground"
         android:src="@drawable/nuage"
+        tools:src="@drawable/nuage"
         app:layout_constraintTop_toBottomOf="@id/guidelineCloud" />
 
     <ImageView
@@ -20,6 +23,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/cloudbackground"
         android:src="@drawable/nuage"
+        tools:src="@drawable/nuage"
         app:layout_constraintLeft_toRightOf="@id/cloudOneBackground" />
 
     <ImageView
@@ -27,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/nuage"
+        tools:src="@drawable/nuage"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cloudTwoBackground" />
 
@@ -35,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/flappyicon"
+        tools:src="@drawable/flappyicon"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guidelinBirdIcon" />
@@ -46,6 +52,7 @@
         android:text="@string/appTitle"
         android:textColor="@color/colorAppTitle"
         android:textSize="60sp"
+        tools:text="@string/appTitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineAppTitle" />
@@ -56,6 +63,7 @@
         android:layout_height="wrap_content"
         android:background="@color/blueSky"
         android:src="@drawable/icon_play"
+        tools:src="@drawable/icon_play"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/buttonHighScore"
         app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption" />
@@ -66,6 +74,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/icon_highscore"
         android:src="@drawable/icon_highscore"
+        tools:src="@drawable/icon_highscore"
         app:layout_constraintLeft_toRightOf="@id/buttonPlay"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption" />

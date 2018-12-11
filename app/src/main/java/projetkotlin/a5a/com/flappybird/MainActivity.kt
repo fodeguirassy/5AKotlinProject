@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         Navigation.findNavController(findViewById(R.id.navHostFragment)).navigate(R.id.fragment_start)
     }
 
+
     private fun setFont(textView: TextView, fontName: String?) {
         if (fontName != null) {
             try {

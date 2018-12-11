@@ -63,7 +63,6 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-
         val animator = ValueAnimator.ofFloat(-5.0f, 4.0f)
         animator.repeatCount = ValueAnimator.INFINITE
         animator.interpolator = LinearInterpolator()

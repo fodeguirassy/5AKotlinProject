@@ -2,4 +2,7 @@
     <string name="app_name">FlappyBird</string>
     <string name="cloudbackground">cloudBackground</string>
     <string name="appTitle">Flappy Bird</string>
+    <string name="pipe_type_top">top</string>
+    <string name="pipe_type_bottom">bottom</string>
+    <string name="animation_tanslation_x">translationX</string>
 </resources>

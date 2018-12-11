@@ -10,5 +10,4 @@ class FlappyBirdApplication : Application() {
         super.onCreate()
         startKoin(this, listOf(koinModule))
     }
-
 }

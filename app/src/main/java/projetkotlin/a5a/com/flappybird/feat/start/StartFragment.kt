@@ -13,7 +13,6 @@ class StartFragment : AbstractFragment()  {
 
     override val presenter: StartPresenter by inject()
     override val defaultLayout: Int = R.layout.fragment_start
-    override val currentFragmentTag: String = "startFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

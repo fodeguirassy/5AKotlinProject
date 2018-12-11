@@ -12,10 +12,14 @@ abstract class AbstractFragment : Fragment() {
 
     open val presenter : BasePresenter by inject()
     abstract val defaultLayout : Int
-    abstract val currentFragmentTag : String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(defaultLayout, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.viewCreated()
     }
 
     override fun onResume() {
