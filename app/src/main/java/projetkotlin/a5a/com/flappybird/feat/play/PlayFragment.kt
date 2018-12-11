@@ -9,19 +9,18 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.constraintlayout.widget.Constraints
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_play.bird
 import kotlinx.android.synthetic.main.fragment_play.fragment_play
 import org.koin.android.ext.android.inject
 import projetkotlin.a5a.com.flappybird.R
+import projetkotlin.a5a.com.flappybird.model.Pipe
+import projetkotlin.a5a.com.flappybird.model.PipeDrawable
 import projetkotlin.a5a.com.flappybird.mvp.AbstractFragment
+import projetkotlin.a5a.com.flappybird.utils.AppConstants
 import java.util.Random
-import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 
@@ -33,9 +32,9 @@ class PlayFragment : AbstractFragment(), PlayContract {
     private var screenWidth: Int by Delegates.notNull()
     private var screenHeight: Int by Delegates.notNull()
 
-    private var translateXValue : Float by Delegates.notNull()
-    private var translateYValue : Float by Delegates.notNull()
-    private var translateYCurrentValue : Float by Delegates.notNull()
+    private var translateXValue: Float by Delegates.notNull()
+    private var translateYValue: Float by Delegates.notNull()
+    private var translateYCurrentValue: Float by Delegates.notNull()
 
     private val birdXTranslation: ObjectAnimator by lazy {
         ObjectAnimator.ofFloat(bird, View.TRANSLATION_X,
@@ -57,9 +56,18 @@ class PlayFragment : AbstractFragment(), PlayContract {
         }
     }
 
+    private val currentBirdYTranslation: ObjectAnimator by lazy {
+        ObjectAnimator.ofFloat(bird, View.TRANSLATION_Y,
+                bird.y, bird.y - 300).apply {
+            addUpdateListener {
+                translateYCurrentValue = it.animatedValue as Float
+            }
+        }
+    }
+
     val animSet = AnimatorSet()
     val defaultAnimSet = AnimatorSet().apply {
-        duration = 5000
+        duration = AppConstants.DEFAULT_ANIMATOR_SET_DURATION
         addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {}
@@ -90,9 +98,7 @@ class PlayFragment : AbstractFragment(), PlayContract {
         screenWidth = screenDisplayMetrics.widthPixels
         screenHeight = screenDisplayMetrics.heightPixels
 
-        Log.v("@XXX", "${bird.x}")
-        Log.v("@YYY", "${bird.y}")
-
+        /*
         defaultAnimSet.playTogether(birdYTranslation, birdXTranslation)
         defaultAnimSet.start()
 
@@ -113,17 +119,9 @@ class PlayFragment : AbstractFragment(), PlayContract {
                     Log.v("@test", "${it.printStackTrace()}")
                 })
 
-        val animY = ObjectAnimator.ofFloat(bird, View.TRANSLATION_Y,
-                bird.y, bird.y - 300).apply {
-
-            addUpdateListener {
-                translateYCurrentValue = it.animatedValue as Float
-            }
-        }
-
         animSet.apply {
-            duration = 500
-            playTogether(animY, birdXTranslation)
+            duration = AppConstants.CURRENT_ANIMATOR_SET_DURATION
+            playTogether(currentBirdYTranslation, birdXTranslation)
             addListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(p0: Animator?) {}
                 override fun onAnimationEnd(animator: Animator?) {
@@ -149,7 +147,52 @@ class PlayFragment : AbstractFragment(), PlayContract {
             defaultAnimSet.cancel()
             (activity as AppCompatActivity).onTouchEvent(motionEvent)
         }
+        */
 
+        presenter.initPipesObservables()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val topPipe = presenter.setPipe(it.value(), getString(R.string.pipe_type_top))
+                    //presenter.onPipeReady(topPipe)
+                    drawPipe(topPipe)
+                    val bottomPipe = presenter.setPipe(it.value(), getString(R.string.pipe_type_bottom))
+                    //presenter.onPipeReady(bottomPipe)
+                    drawPipe(bottomPipe)
+
+                }, {
+                    Log.v("@Observ_Err", "${it.printStackTrace()}")
+                })
+    }
+
+    //TODO not in the contract because CONTEXT is lost when calling Presenter
+    private fun drawPipe(pipe: Pipe) {
+
+            val imageView = ImageView(context)
+
+            val currentLayoutParams = ConstraintLayout.LayoutParams(
+                    Constraints.LayoutParams.WRAP_CONTENT,
+                    Constraints.LayoutParams.WRAP_CONTENT)
+
+            when (pipe.type) {
+                getString(R.string.pipe_type_top) -> {
+                    currentLayoutParams.topToTop = fragment_play.id
+                    currentLayoutParams.endToEnd = fragment_play.id
+                    imageView.y = imageView.top - pipe.height
+                    imageView.setImageResource(PipeDrawable.TOP.drawable)
+                }
+                getString(R.string.pipe_type_bottom) -> {
+                    currentLayoutParams.bottomToBottom = fragment_play.id
+                    currentLayoutParams.endToEnd = fragment_play.id
+                    imageView.y = imageView.bottom + pipe.height
+                    imageView.setImageResource(PipeDrawable.BOTTOM.drawable)
+                }
+            }
+
+            imageView.layoutParams = currentLayoutParams
+            imageView.x = screenWidth - AppConstants.PIPE_RIGHT_OFFSET
+
+            fragment_play.addView(imageView)
+            animatePipe(imageView)
     }
 
     private fun setPipeImageView(type: String): ImageView {
@@ -162,19 +205,19 @@ class PlayFragment : AbstractFragment(), PlayContract {
             getString(R.string.pipe_type_top) -> {
                 currentLayoutParams.topToTop = fragment_play.id
                 currentLayoutParams.endToEnd = fragment_play.id
-                imageView.y = imageView.top - (Random().nextFloat() * (300 - 0) + 0)
+                imageView.y = imageView.top - (Random().nextFloat() * (350 - 0) + 0)
                 imageView.setImageResource(R.drawable.pipe_reversed)
             }
             getString(R.string.pipe_type_bottom) -> {
                 currentLayoutParams.bottomToBottom = fragment_play.id
                 currentLayoutParams.endToEnd = fragment_play.id
-                imageView.y = imageView.bottom + (Random().nextFloat() * (300 - 0) + 0)
+                imageView.y = imageView.bottom + (Random().nextFloat() * (350 - 0) + 0)
                 imageView.setImageResource(R.drawable.pipe)
             }
         }
 
         imageView.layoutParams = currentLayoutParams
-        imageView.x = screenWidth - 5f
+        imageView.x = screenWidth - AppConstants.PIPE_RIGHT_OFFSET
 
         return imageView
     }
@@ -182,9 +225,8 @@ class PlayFragment : AbstractFragment(), PlayContract {
     private fun animatePipe(pipeImageView: ImageView) {
         ObjectAnimator.ofFloat(pipeImageView, getString(R.string.animation_tanslation_x),
                 pipeImageView.left - screenWidth.toFloat()).apply {
-            duration = 7500
+            duration = AppConstants.PIPE_ANIMATION_DURATION
             start()
         }
     }
-
 }
