@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Constraints
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_play.bird
 import kotlinx.android.synthetic.main.fragment_play.fragment_play
 import kotlinx.android.synthetic.main.fragment_play.fragment_play_score
@@ -28,8 +30,8 @@ import kotlin.properties.Delegates
 class PlayFragment : AbstractMVPFragment(), PlayContract {
 
     override val presenter = PlayPresenter(this)
-
     override val defaultLayout: Int = R.layout.fragment_play
+    private lateinit var pipesDisposable : Disposable
 
     private var screenWidth: Int by Delegates.notNull()
     private var screenHeight: Int by Delegates.notNull()
@@ -114,7 +116,7 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
             (activity as AppCompatActivity).onTouchEvent(motionEvent)
         }
 
-        presenter.initPipesObservables()
+        pipesDisposable = presenter.initPipesObservables()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
@@ -124,7 +126,6 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
                     presenter.addPipePair(Pair(topPipe, bottomPipe))
 
                 }, {
-                    Log.v("@Observ_Err", "${it.printStackTrace()}")
                     Toast.makeText(context, getString(R.string.pipe_observable_error), Toast.LENGTH_SHORT).show()
                 })
     }
@@ -181,14 +182,13 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
             imageView.x = screenWidth - AppConstants.PIPE_RIGHT_OFFSET
 
             imageView.tag = pipe.pipeSharedId
-            pipe.currentXPosition = imageView.left
+            pipe.currentXPosition = imageView.x.toInt()
 
             fragment_play.addView(imageView)
             animatePipe(imageView)
     }
 
     override fun setScore(score: Int) {
-
         fragment_play_score.text = "$score"
     }
 
@@ -198,6 +198,34 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
             duration = AppConstants.PIPE_ANIMATION_DURATION
             start()
             addUpdateListener {
+
+                val birdRect = Rect()
+                val pipeRect = Rect()
+
+                bird.getHitRect(birdRect)
+                pipeImageView.getHitRect(pipeRect)
+
+                if(Rect.intersects(birdRect, pipeRect)) {
+
+                    Log.v("@GAME_OVER", "GAME OVEREEEEEEEEEEE")
+
+                    pipesDisposable.dispose()
+
+                    birdXTranslation.end()
+
+                    if(animSet.isRunning) {
+                        animSet.end()
+                        birdYTranslation.end()
+                    }
+
+                    if(defaultAnimSet.isRunning) {
+                        defaultAnimSet.end()
+                        currentBirdYTranslation.end()
+                    }
+
+                    cancel()
+                }
+
                 if(presenter.pipePairStillVisible(pipeImageView.tag as Long)) {
                     presenter.updatePairLeftPosition(pipeImageView.tag as Long, pipeImageView.x.toInt())
                 } else {
