@@ -7,9 +7,9 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_start.buttonPlay
 import org.koin.android.ext.android.inject
 import projetkotlin.a5a.com.flappybird.R
-import projetkotlin.a5a.com.flappybird.mvp.AbstractFragment
+import projetkotlin.a5a.com.flappybird.mvp.AbstractMVPFragment
 
-class StartFragment : AbstractFragment()  {
+class StartFragment : AbstractMVPFragment()  {
 
     override val presenter: StartPresenter by inject()
     override val defaultLayout: Int = R.layout.fragment_start

@@ -18,103 +18,17 @@
         app:srcCompat="@drawable/flappy_ic"
         tools:srcCompat="@drawable/flappy_ic"/>
 
-    <!--
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/top_pipe_two"
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintStart_toEndOf="@id/top_pipe_first"
-        app:layout_constraintTop_toTopOf="@id/top_pipe_first"
-        app:srcCompat="@drawable/pipe_reversed" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/top_pipe_tree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintStart_toEndOf="@id/top_pipe_two"
-        app:layout_constraintTop_toTopOf="@id/top_pipe_two"
-        app:srcCompat="@drawable/pipe_reversed" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/top_pipe_four"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintStart_toEndOf="@id/top_pipe_tree"
-        app:layout_constraintTop_toTopOf="@id/top_pipe_tree"
-        app:srcCompat="@drawable/pipe_reversed" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/top_pipe_five"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintStart_toEndOf="@id/top_pipe_four"
-        app:layout_constraintTop_toTopOf="@id/top_pipe_four"
-        app:srcCompat="@drawable/pipe_reversed" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/top_pipe_six"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintStart_toEndOf="@id/top_pipe_five"
-        app:layout_constraintTop_toTopOf="@id/top_pipe_five"
-        app:srcCompat="@drawable/pipe_reversed" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bottom_pipe_first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/pipe" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bottom_pipe_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_pipe_first"
-        app:layout_constraintStart_toEndOf="@id/bottom_pipe_first"
-        app:srcCompat="@drawable/pipe" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bottom_pipe_tree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_pipe_two"
-        app:layout_constraintStart_toEndOf="@id/bottom_pipe_two"
-        app:srcCompat="@drawable/pipe" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bottom_pipe_four"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_pipe_tree"
-        app:layout_constraintStart_toEndOf="@id/bottom_pipe_tree"
-        app:srcCompat="@drawable/pipe" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bottom_pipe_five"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_pipe_four"
-        app:layout_constraintStart_toEndOf="@id/bottom_pipe_four"
-        app:srcCompat="@drawable/pipe" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/bottom_pipe_six"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_pipe_five"
-        app:layout_constraintStart_toEndOf="@id/bottom_pipe_five"
-        app:srcCompat="@drawable/pipe" /> -->
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold"
+        tools:text="0"
+        android:textSize="40sp"
+        android:layout_marginEnd="12dp"
+        android:id="@+id/fragment_play_score"
+        android:textColor="@color/colorPrimaryDark"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

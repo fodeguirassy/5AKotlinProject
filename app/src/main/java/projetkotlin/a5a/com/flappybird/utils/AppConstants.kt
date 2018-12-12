@@ -9,5 +9,8 @@ class AppConstants {
         const val PIPE_ANIMATION_DURATION = 7500L
         const val DEFAULT_ANIMATOR_SET_DURATION = 5000L
         const val CURRENT_ANIMATOR_SET_DURATION = 500L
+        const val BIRD_X_TRANSLATION_GAP = 25
+        const val BIRD_Y_TRANSLATION_GAP = 500f
+        const val BIRD_CURRENT_Y_TRANSLATION_GAP = 300
     }
 }
