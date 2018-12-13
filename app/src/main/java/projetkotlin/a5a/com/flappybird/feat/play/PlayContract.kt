@@ -7,4 +7,5 @@ interface PlayContract : BaseView {
     fun redrawBirdLayout(isDefaultAnimatorSet : Boolean)
     fun drawPipe(pipe: Pipe)
     fun setScore(score : Int)
+    fun stopGame()
 }

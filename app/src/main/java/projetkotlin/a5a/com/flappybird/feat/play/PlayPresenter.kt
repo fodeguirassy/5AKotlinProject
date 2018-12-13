@@ -6,6 +6,7 @@ import projetkotlin.a5a.com.flappybird.model.Bird
 import projetkotlin.a5a.com.flappybird.model.Pipe
 import projetkotlin.a5a.com.flappybird.model.PipeDrawable
 import projetkotlin.a5a.com.flappybird.mvp.BasePresenter
+import projetkotlin.a5a.com.flappybird.utils.AppConstants
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -14,6 +15,7 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
     private var currentPipesPair = mutableMapOf<Long, Pair<Pipe, Pipe>>()
     private var bird = Bird()
     private var score: Int = 0
+    private var collisionDetected = false
 
     fun initPipesObservables(): Observable<Timed<Long>> {
         return Observable.interval(2, TimeUnit.SECONDS)
@@ -45,7 +47,8 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
         pipesPairToList.first.currentXPosition = position
         pipesPairToList.second.currentXPosition = position
 
-        if (pipesPairToList.first.currentXPosition < bird.xPosition) {
+        if (pipesPairToList.first.currentXPosition <
+                (bird.xPosition + AppConstants.BIRD_DRAWABLE_WIDTH) && (!collisionDetected)) {
             score++
             currentPipesPair.remove(pipeImageViewTag)
         }
@@ -60,7 +63,12 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
         bird.yPosition = currentY
     }
 
-    fun incrementScore() {
+    fun updateScore() {
         view.setScore(score)
+    }
+
+    fun onGameOver() {
+        collisionDetected = true
+        view.stopGame()
     }
 }

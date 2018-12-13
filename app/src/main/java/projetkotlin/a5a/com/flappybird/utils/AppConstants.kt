@@ -12,5 +12,6 @@ class AppConstants {
         const val BIRD_X_TRANSLATION_GAP = 25
         const val BIRD_Y_TRANSLATION_GAP = 500f
         const val BIRD_CURRENT_Y_TRANSLATION_GAP = 300
+        const val BIRD_DRAWABLE_WIDTH = 51
     }
 }

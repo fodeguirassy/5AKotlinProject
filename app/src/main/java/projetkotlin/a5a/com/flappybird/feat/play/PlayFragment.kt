@@ -7,18 +7,21 @@ import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Constraints
+import androidx.navigation.Navigation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_play.bird
+import kotlinx.android.synthetic.main.fragment_play.final_score
 import kotlinx.android.synthetic.main.fragment_play.fragment_play
 import kotlinx.android.synthetic.main.fragment_play.fragment_play_score
+import kotlinx.android.synthetic.main.fragment_play.game_over
+import kotlinx.android.synthetic.main.fragment_play.visibility_group
 import projetkotlin.a5a.com.flappybird.R
 import projetkotlin.a5a.com.flappybird.model.Pipe
 import projetkotlin.a5a.com.flappybird.model.PipeDrawable
@@ -31,7 +34,7 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
 
     override val presenter = PlayPresenter(this)
     override val defaultLayout: Int = R.layout.fragment_play
-    private lateinit var pipesDisposable : Disposable
+    private lateinit var pipesDisposable: Disposable
 
     private var screenWidth: Int by Delegates.notNull()
     private var screenHeight: Int by Delegates.notNull()
@@ -137,15 +140,15 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
         var marginTop = currentLayoutParams.topMargin.toFloat()
         var marginBottom = currentLayoutParams.bottomMargin.toFloat()
 
-        when(isDefaultAnimatorSet) {
+        when (isDefaultAnimatorSet) {
             true -> {
-                 marginStart = currentLayoutParams.marginStart + translateXValue
-                 marginTop = currentLayoutParams.topMargin + translateYValue
-                 marginBottom = currentLayoutParams.bottomMargin - translateYValue
+                marginStart = currentLayoutParams.marginStart + translateXValue
+                marginTop = currentLayoutParams.topMargin + translateYValue
+                marginBottom = currentLayoutParams.bottomMargin - translateYValue
             }
             false -> {
-                 marginTop = currentLayoutParams.topMargin - translateYValue
-                 marginBottom = currentLayoutParams.bottomMargin + translateYValue
+                marginTop = currentLayoutParams.topMargin - translateYValue
+                marginBottom = currentLayoutParams.bottomMargin + translateYValue
             }
         }
 
@@ -157,40 +160,57 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
 
     override fun drawPipe(pipe: Pipe) {
 
-            val imageView = ImageView(context)
+        val imageView = ImageView(context)
 
-            val currentLayoutParams = ConstraintLayout.LayoutParams(
-                    Constraints.LayoutParams.WRAP_CONTENT,
-                    Constraints.LayoutParams.WRAP_CONTENT)
+        val currentLayoutParams = ConstraintLayout.LayoutParams(
+                Constraints.LayoutParams.WRAP_CONTENT,
+                Constraints.LayoutParams.WRAP_CONTENT)
 
-            when (pipe.type) {
-                getString(R.string.pipe_type_top) -> {
-                    currentLayoutParams.topToTop = fragment_play.id
-                    currentLayoutParams.endToEnd = fragment_play.id
-                    imageView.y = imageView.top - pipe.height
-                    imageView.setImageResource(PipeDrawable.TOP.drawable)
-                }
-                getString(R.string.pipe_type_bottom) -> {
-                    currentLayoutParams.bottomToBottom = fragment_play.id
-                    currentLayoutParams.endToEnd = fragment_play.id
-                    imageView.y = imageView.bottom + pipe.height
-                    imageView.setImageResource(PipeDrawable.BOTTOM.drawable)
-                }
+        when (pipe.type) {
+            getString(R.string.pipe_type_top) -> {
+                currentLayoutParams.topToTop = fragment_play.id
+                currentLayoutParams.endToEnd = fragment_play.id
+                imageView.y = imageView.top - pipe.height
+                imageView.setImageResource(PipeDrawable.TOP.drawable)
             }
+            getString(R.string.pipe_type_bottom) -> {
+                currentLayoutParams.bottomToBottom = fragment_play.id
+                currentLayoutParams.endToEnd = fragment_play.id
+                imageView.y = imageView.bottom + pipe.height
+                imageView.setImageResource(PipeDrawable.BOTTOM.drawable)
+            }
+        }
 
-            imageView.layoutParams = currentLayoutParams
-            imageView.x = screenWidth - AppConstants.PIPE_RIGHT_OFFSET
+        imageView.layoutParams = currentLayoutParams
+        imageView.x = screenWidth - AppConstants.PIPE_RIGHT_OFFSET
 
-            imageView.tag = pipe.pipeSharedId
-            pipe.currentXPosition = imageView.x.toInt()
+        imageView.tag = pipe.pipeSharedId
+        pipe.currentXPosition = imageView.x.toInt()
 
-            fragment_play.addView(imageView)
-            animatePipe(imageView)
+        fragment_play.addView(imageView)
+        animatePipe(imageView)
     }
 
     override fun setScore(score: Int) {
         fragment_play_score.text = "$score"
     }
+
+    override fun stopGame() {
+        pipesDisposable.dispose()
+        birdXTranslation.end()
+        if (animSet.isRunning) {
+            animSet.end()
+            birdYTranslation.end()
+        }
+        if (defaultAnimSet.isRunning) {
+            defaultAnimSet.end()
+            currentBirdYTranslation.end()
+        }
+        visibility_group.visibility = View.VISIBLE
+        fragment_play_score.visibility = View.GONE
+        final_score.text = getString(R.string.final_score, fragment_play_score.text)
+    }
+
 
     private fun animatePipe(pipeImageView: ImageView) {
         ObjectAnimator.ofFloat(pipeImageView, getString(R.string.animation_tanslation_x),
@@ -205,31 +225,18 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
                 bird.getHitRect(birdRect)
                 pipeImageView.getHitRect(pipeRect)
 
-                if(Rect.intersects(birdRect, pipeRect)) {
+                when {
 
-                    Log.v("@GAME_OVER", "GAME OVEREEEEEEEEEEE")
-
-                    pipesDisposable.dispose()
-
-                    birdXTranslation.end()
-
-                    if(animSet.isRunning) {
-                        animSet.end()
-                        birdYTranslation.end()
+                    Rect.intersects(birdRect, pipeRect) -> {
+                        presenter.onGameOver()
+                       // cancel()
                     }
-
-                    if(defaultAnimSet.isRunning) {
-                        defaultAnimSet.end()
-                        currentBirdYTranslation.end()
+                    presenter.pipePairStillVisible(pipeImageView.tag as Long) -> {
+                        presenter.updatePairLeftPosition(pipeImageView.tag as Long, pipeImageView.x.toInt())
                     }
-
-                    cancel()
-                }
-
-                if(presenter.pipePairStillVisible(pipeImageView.tag as Long)) {
-                    presenter.updatePairLeftPosition(pipeImageView.tag as Long, pipeImageView.x.toInt())
-                } else {
-                    presenter.incrementScore()
+                    else -> {
+                        presenter.updateScore()
+                    }
                 }
             }
         }

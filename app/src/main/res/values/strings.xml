@@ -6,4 +6,6 @@
     <string name="pipe_type_bottom">BOTTOM</string>
     <string name="animation_tanslation_x">translationX</string>
     <string name="pipe_observable_error">Une erreur est survenue lors de la génération des obstacles</string>
+    <string name="final_score">Votre score est %s</string>
+    <string name="ok_button">OK</string>
 </resources>
