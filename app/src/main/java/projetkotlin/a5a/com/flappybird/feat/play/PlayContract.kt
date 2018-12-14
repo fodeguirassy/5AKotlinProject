@@ -8,4 +8,6 @@ interface PlayContract : BaseView {
     fun drawPipe(pipe: Pipe)
     fun setScore(score : Int)
     fun stopGame()
+    fun stopAnimations()
+    fun freeDisposable()
 }

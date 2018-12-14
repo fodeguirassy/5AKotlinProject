@@ -24,6 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="0"
+        android:text="@string/default_score"
         android:layout_marginEnd="12dp"
         android:id="@+id/fragment_play_score"
         android:textAppearance="@style/TextViewAppearance"
@@ -33,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/gameover"
+        tools:srcCompat="@drawable/gameover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +61,7 @@
         android:id="@+id/visibility_group"
         app:constraint_referenced_ids="final_score, game_over"
         android:visibility="gone"
+        tools:visibility="visible"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

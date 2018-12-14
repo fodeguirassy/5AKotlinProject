@@ -6,6 +6,7 @@ import projetkotlin.a5a.com.flappybird.feat.play.PlayPresenter
 import projetkotlin.a5a.com.flappybird.feat.start.StartFragment
 import projetkotlin.a5a.com.flappybird.feat.start.StartPresenter
 import projetkotlin.a5a.com.flappybird.mvp.AbstractMVPFragment
+import projetkotlin.a5a.com.flappybird.persistence.room.DatabaseController
 
 val koinModule = module {
 
@@ -14,4 +15,6 @@ val koinModule = module {
     factory { StartPresenter() }
     factory { StartFragment() }
     factory { AbstractMVPFragment() }
+    //factory { DatabaseController.initDatabase(get())}
+
 }

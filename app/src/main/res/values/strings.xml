@@ -8,4 +8,10 @@
     <string name="pipe_observable_error">Une erreur est survenue lors de la génération des obstacles</string>
     <string name="final_score">Votre score est %s</string>
     <string name="ok_button">OK</string>
+    <string name="default_score">0</string>
+    <string name="player_pseudo_hint">pseudo</string>
+    <string name="player_pseudo_dialog_title">Quel est ton pseudo ?</string>
+    <string name="player_pseudo_dialog_submit_btn">Soumettre</string>
+    <string name="player_pseudo_title_cancel_btn">Annuler</string>
+    <string name="player_toast_pseudo_mandatory">Veuillez Renseignez un pseudo svp</string>
 </resources>

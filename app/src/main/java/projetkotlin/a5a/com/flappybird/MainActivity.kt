@@ -7,8 +7,11 @@ import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import kotlinx.android.synthetic.main.player_name_dialog.player_name
+import kotlinx.android.synthetic.main.player_name_dialog.view.player_name
 
 class MainActivity : AppCompatActivity() {
 

@@ -7,20 +7,19 @@ import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Constraints
-import androidx.navigation.Navigation
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_play.bird
 import kotlinx.android.synthetic.main.fragment_play.final_score
 import kotlinx.android.synthetic.main.fragment_play.fragment_play
 import kotlinx.android.synthetic.main.fragment_play.fragment_play_score
-import kotlinx.android.synthetic.main.fragment_play.game_over
 import kotlinx.android.synthetic.main.fragment_play.visibility_group
 import projetkotlin.a5a.com.flappybird.R
 import projetkotlin.a5a.com.flappybird.model.Pipe
@@ -42,12 +41,18 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
     private var translateXValue: Float by Delegates.notNull()
     private var translateYValue: Float by Delegates.notNull()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val playerName = PlayFragmentArgs.fromBundle(arguments).playerName
+        presenter.setCurrentUserName(playerName)
+    }
+
     private val birdXTranslation: ObjectAnimator by lazy {
         ObjectAnimator.ofFloat(bird, View.TRANSLATION_X,
                 bird.x, bird.x + AppConstants.BIRD_X_TRANSLATION_GAP).apply {
             addUpdateListener {
                 translateXValue = it.animatedValue as Float
-                presenter.updateBirdPosition(bird.x, bird.y)
+                presenter.updateBirdPosition(bird.x, bird.y, bird.left)
             }
         }
     }
@@ -57,7 +62,7 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
                 bird.y, bird.y + AppConstants.BIRD_Y_TRANSLATION_GAP).apply {
             addUpdateListener {
                 translateYValue = it.animatedValue as Float
-                presenter.updateBirdPosition(bird.x, bird.y)
+                presenter.updateBirdPosition(bird.x, bird.y, bird.left)
             }
         }
     }
@@ -67,24 +72,42 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
                 bird.y, bird.y - AppConstants.BIRD_CURRENT_Y_TRANSLATION_GAP)
                 .apply {
                     addUpdateListener {
-                        presenter.updateBirdPosition(bird.x, bird.y)
+                        presenter.updateBirdPosition(bird.x, bird.y, bird.left)
                     }
                 }
     }
 
-    val animSet = AnimatorSet()
-    val defaultAnimSet = AnimatorSet().apply {
-        duration = AppConstants.DEFAULT_ANIMATOR_SET_DURATION
-        addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {}
-            override fun onAnimationCancel(animator: Animator?) {
-                presenter.onRedrawBirdRequested(true)
-                animSet.start()
-            }
+    private val currentAnimatorSet: AnimatorSet by lazy {
+        AnimatorSet().apply {
+            duration = AppConstants.CURRENT_ANIMATOR_SET_DURATION
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(p0: Animator?) {}
+                override fun onAnimationEnd(animator: Animator?) {
+                    presenter.onRedrawBirdRequested(false)
+                    defaultAnimatorSet.start()
+                }
 
-            override fun onAnimationStart(p0: Animator?) {}
-        })
+                override fun onAnimationCancel(p0: Animator?) {}
+                override fun onAnimationStart(p0: Animator?) {}
+            })
+        }
+    }
+    private val defaultAnimatorSet: AnimatorSet by lazy {
+        AnimatorSet().apply {
+            duration = AppConstants.DEFAULT_ANIMATOR_SET_DURATION
+            playTogether(birdYTranslation, birdXTranslation)
+            start()
+            addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(p0: Animator?) {}
+                override fun onAnimationEnd(p0: Animator?) {}
+                override fun onAnimationCancel(animator: Animator?) {
+                    presenter.onRedrawBirdRequested(true)
+                    currentAnimatorSet.start()
+                }
+
+                override fun onAnimationStart(p0: Animator?) {}
+            })
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -96,26 +119,12 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
         screenWidth = screenDisplayMetrics.widthPixels
         screenHeight = screenDisplayMetrics.heightPixels
 
-        defaultAnimSet.playTogether(birdYTranslation, birdXTranslation)
-        defaultAnimSet.start()
-
-        animSet.apply {
-            duration = AppConstants.CURRENT_ANIMATOR_SET_DURATION
-            playTogether(currentBirdYTranslation, birdXTranslation)
-            addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(p0: Animator?) {}
-                override fun onAnimationEnd(animator: Animator?) {
-                    presenter.onRedrawBirdRequested(false)
-                    defaultAnimSet.start()
-                }
-
-                override fun onAnimationCancel(p0: Animator?) {}
-                override fun onAnimationStart(p0: Animator?) {}
-            })
-        }
+        defaultAnimatorSet.playTogether(birdYTranslation, birdXTranslation)
+        defaultAnimatorSet.start()
+        currentAnimatorSet.playTogether(currentBirdYTranslation, birdXTranslation)
 
         fragment_play.setOnTouchListener { _, motionEvent ->
-            defaultAnimSet.cancel()
+            defaultAnimatorSet.cancel()
             (activity as AppCompatActivity).onTouchEvent(motionEvent)
         }
 
@@ -133,10 +142,31 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
                 })
     }
 
+    override fun stopAnimations() {
+        birdXTranslation.end()
+        if (currentAnimatorSet.isRunning) {
+            currentAnimatorSet.end()
+            birdYTranslation.end()
+        }
+        if (defaultAnimatorSet.isRunning) {
+            defaultAnimatorSet.end()
+            currentBirdYTranslation.end()
+        }
+    }
+
+    override fun onStop() {
+        presenter.stop()
+        super.onStop()
+    }
+
+    override fun freeDisposable() {
+        pipesDisposable.dispose()
+    }
+
     override fun redrawBirdLayout(isDefaultAnimatorSet: Boolean) {
         val currentLayoutParams = bird.layoutParams as ConstraintLayout.LayoutParams
         var marginStart = currentLayoutParams.marginStart.toFloat()
-        var marginEnd = currentLayoutParams.marginEnd.toFloat()
+        val marginEnd = currentLayoutParams.marginEnd.toFloat()
         var marginTop = currentLayoutParams.topMargin.toFloat()
         var marginBottom = currentLayoutParams.bottomMargin.toFloat()
 
@@ -196,19 +226,13 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
     }
 
     override fun stopGame() {
-        pipesDisposable.dispose()
-        birdXTranslation.end()
-        if (animSet.isRunning) {
-            animSet.end()
-            birdYTranslation.end()
-        }
-        if (defaultAnimSet.isRunning) {
-            defaultAnimSet.end()
-            currentBirdYTranslation.end()
-        }
+        stopAnimations()
         visibility_group.visibility = View.VISIBLE
         fragment_play_score.visibility = View.GONE
-        final_score.text = getString(R.string.final_score, fragment_play_score.text)
+        final_score.text = getString(R.string.final_score,
+                fragment_play_score.text.takeIf {
+                    it.toString().toInt() != R.string.default_score
+                } ?: R.string.default_score)
     }
 
 
@@ -219,23 +243,25 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
             start()
             addUpdateListener {
 
-                val birdRect = Rect()
-                val pipeRect = Rect()
+                bird?.let {
 
-                bird.getHitRect(birdRect)
-                pipeImageView.getHitRect(pipeRect)
+                    val birdRect = Rect()
+                    val pipeRect = Rect()
 
-                when {
+                    it.getHitRect(birdRect)
+                    pipeImageView.getHitRect(pipeRect)
 
-                    Rect.intersects(birdRect, pipeRect) -> {
-                        presenter.onGameOver()
-                       // cancel()
-                    }
-                    presenter.pipePairStillVisible(pipeImageView.tag as Long) -> {
-                        presenter.updatePairLeftPosition(pipeImageView.tag as Long, pipeImageView.x.toInt())
-                    }
-                    else -> {
-                        presenter.updateScore()
+                    when {
+                        Rect.intersects(birdRect, pipeRect) -> {
+                            presenter.onGameOver()
+                        }
+                        presenter.pipePairStillVisible(pipeImageView.tag as Long) -> {
+                            presenter.updatePipesPosition(pipeImageView.tag as Long,
+                                    pipeImageView.x.toInt(), pipeImageView.right)
+                        }
+                        else -> {
+                            presenter.updateScore()
+                        }
                     }
                 }
             }

@@ -9,6 +9,7 @@ data class Pipe(val type: String,
         val drawable: PipeDrawable) {
 
     var currentXPosition : Int = 0
+    var rightPosition : Int = 0
     var pipeSharedId: Long = 0L
 
     var height : Float = 0f

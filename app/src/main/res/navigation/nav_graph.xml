@@ -28,6 +28,9 @@
         tools:layout="@layout/fragment_play">
         <action app:destination="@id/fragment_start"
             android:id="@+id/action_play_to_start"/>
+        <argument
+            android:name="playerName"
+            app:argType="string"/>
     </fragment>
 
 </navigation>
