@@ -17,7 +17,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class ChartListAdapter(private val appContext: Context, private val topUsers : List<User>): BaseAdapter() {
+class ChartListAdapter(private val appContext: Context, private val topUsers: List<User>) : BaseAdapter() {
 
     @SuppressLint("ViewHolder")
     override fun getView(index: Int, view: View?, viewGroup: ViewGroup?): View {
@@ -42,6 +42,4 @@ class ChartListAdapter(private val appContext: Context, private val topUsers : L
     override fun getCount(): Int {
         return topUsers.size
     }
-
-
 }
