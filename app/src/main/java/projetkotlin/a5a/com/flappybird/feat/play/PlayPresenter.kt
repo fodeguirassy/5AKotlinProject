@@ -3,18 +3,20 @@ package projetkotlin.a5a.com.flappybird.feat.play
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
 import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.Timed
+import projetkotlin.a5a.com.flappybird.R
 import projetkotlin.a5a.com.flappybird.model.Bird
 import projetkotlin.a5a.com.flappybird.model.Pipe
 import projetkotlin.a5a.com.flappybird.model.PipeDrawable
 import projetkotlin.a5a.com.flappybird.mvp.BasePresenter
-import projetkotlin.a5a.com.flappybird.persistence.room.FlappyDatabase
+import projetkotlin.a5a.com.flappybird.persistence.room.DatabaseController
 import projetkotlin.a5a.com.flappybird.persistence.room.User
 import projetkotlin.a5a.com.flappybird.utils.AppConstants
-import java.time.Instant
+import java.util.Date
 import java.util.Random
 import java.util.concurrent.TimeUnit
 
@@ -25,9 +27,10 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
     private var score: Int = 0
     private var collisionDetected = false
 
-    private lateinit var currentUserName : String
+    private lateinit var currentUserName: String
+    private var currentScoreSaved = false
 
-    fun setCurrentUserName(name : String) {
+    fun setCurrentUserName(name: String) {
         currentUserName = name
     }
 
@@ -51,7 +54,7 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
         pipePair.toList().forEach { view.drawPipe(it) }
     }
 
-    fun updatePipesPosition(pipeImageViewTag: Long, xPosition: Int, rigthPosition : Int) {
+    fun updatePipesPosition(pipeImageViewTag: Long, xPosition: Int, rigthPosition: Int) {
 
         val pipesPairToList = currentPipesPair
                 .getValue(pipeImageViewTag)
@@ -79,7 +82,7 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
         return pipePairImageViewTag in currentPipesPair.keys
     }
 
-    fun updateBirdPosition(currentX: Float, currentY: Float, currentLeft : Int) {
+    fun updateBirdPosition(currentX: Float, currentY: Float, currentLeft: Int) {
         bird.xPosition = currentX
         bird.yPosition = currentY
         bird.leftPosition = currentLeft
@@ -96,25 +99,43 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
         view.stopGame()
     }
 
-    @SuppressLint("CheckResult")
-    fun updateChart() {
-        val database = Room.databaseBuilder( ((view as PlayFragment).activity as AppCompatActivity).applicationContext,
-                FlappyDatabase::class.java, AppConstants.FLAPPY_DATABASE_NAME).build()
-
-        Observable.just(database)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    val dao = it.userDao()
-                    val users = dao.getAllUSers()
-                    users.asSequence().filter { it.playerScore < score }
-                            .sortedBy { it.playerScore }
-                            .firstOrNull()?.let {
-                                dao.deleteUser(it)
-                                val user = User(users.last().uid + 1, currentUserName, score, Instant.now().toEpochMilli())
-                                dao.saveUser(user)
-                            }
-                }, {
-                    Log.v("@DB_ERR", "${it.printStackTrace()}")
-                })
+    private fun onNotifyUser(message: String) {
+        ((view as PlayFragment).activity as AppCompatActivity).runOnUiThread {
+            view.toastMessage(message)
+        }
     }
+
+    @SuppressLint("CheckResult")
+    private fun updateChart() {
+        if (!currentScoreSaved) {
+            currentScoreSaved = true
+            val currentUser = User(playerName = currentUserName, playerScore = score,
+                    scoreDate = Date().time)
+
+            DatabaseController.getAllFlappyUsers()
+                    .subscribe(
+                            {
+                                with(it.size) {
+
+                                    if (this < 10) {
+                                        DatabaseController.flappyDatabase.userDao().saveUser(currentUser)
+                                        onNotifyUser((view as PlayFragment).getString(R.string.current_score_is_in_top_10))
+                                        return@with
+                                    } else {
+                                        it.filter { it.playerScore < currentUser.playerScore }
+                                                .firstOrNull()?.let {
+                                                    DatabaseController.flappyDatabase.userDao().deleteUser(it)
+                                                    DatabaseController.flappyDatabase.userDao().saveUser(currentUser)
+                                                    onNotifyUser((view as PlayFragment).getString(R.string.current_score_is_in_top_10))
+                                                }
+                                                ?: onNotifyUser((view as PlayFragment).getString(R.string.current_score_not_in_top_10))
+                                    }
+                                }
+                            },
+                            {
+                                onNotifyUser((view as PlayFragment).getString(R.string.current_score_save_error))
+                            })
+        }
+    }
+
 }

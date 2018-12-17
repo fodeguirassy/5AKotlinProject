@@ -14,4 +14,9 @@
     <string name="player_pseudo_dialog_submit_btn">Soumettre</string>
     <string name="player_pseudo_title_cancel_btn">Annuler</string>
     <string name="player_toast_pseudo_mandatory">Veuillez Renseignez un pseudo svp</string>
+    <string name="current_score_saved">Votre score a été enregistré</string>
+    <string name="current_score_is_in_top_10">Votre score est dans le top 10</string>
+    <string name="current_score_not_in_top_10">Votre score n\'est pas assez elévé pour entrer dans le top 10</string>
+    <string name="current_score_save_error">U e erreur est survenue lors de l\'enregistrement du score</string>
+    <string name="chart_fragment_db_error">Une erreur de base de données est survenue lors de la récupération des données</string>
 </resources>

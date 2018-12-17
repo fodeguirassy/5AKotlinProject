@@ -4,17 +4,20 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import io.reactivex.Single
 
 @Dao
 interface UserDao {
 
     @Query("Select * from user")
-    fun getAllUSers() : List<User>
+    fun getAllUsers(): Single<List<User>>
 
     @Insert
-    fun saveUser(vararg  users : User)
+    fun saveUser(user: User): Long
 
     @Delete
-    fun deleteUser(user : User)
+    fun deleteUser(user: User)
 
+    @Delete
+    fun deleteDatabase(users: List<User>)
 }

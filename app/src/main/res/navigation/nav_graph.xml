@@ -6,19 +6,23 @@
     app:startDestination="@id/navHostFragment">
 
     <fragment
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:id="@id/navHostFragment">
-        <action app:destination="@id/fragment_start"
-            android:id="@+id/action_host_to_start"/>
+        android:id="@id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment">
+        <action
+            android:id="@+id/action_host_to_start"
+            app:destination="@id/fragment_start" />
     </fragment>
 
     <fragment
         android:id="@+id/fragment_start"
         android:name="projetkotlin.a5a.com.flappybird.feat.start.StartFragment"
         android:label="StartFragment">
-        <action app:destination="@id/fragment_play"
+        <action
             android:id="@+id/action_start_to_play"
-            />
+            app:destination="@id/fragment_play" />
+        <action
+            android:id="@+id/action_fragment_start_to_chartFragment"
+            app:destination="@id/chartFragment" />
     </fragment>
 
     <fragment
@@ -26,11 +30,23 @@
         android:name="projetkotlin.a5a.com.flappybird.feat.play.PlayFragment"
         android:label="PlayFragment"
         tools:layout="@layout/fragment_play">
-        <action app:destination="@id/fragment_start"
-            android:id="@+id/action_play_to_start"/>
+        <action
+            android:id="@+id/action_play_to_start"
+            app:destination="@id/fragment_start" />
         <argument
             android:name="playerName"
-            app:argType="string"/>
+            app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="projetkotlin.a5a.com.flappybird.feat.chart.ChartFragment"
+        android:label="ChartFragment"
+        tools:layout="@layout/fragment_chart">
+        <action
+            android:id="@+id/action_chartFragment_to_fragment_start"
+            app:destination="@id/fragment_start" />
+    </fragment>
+
 
 </navigation>

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.player_name_dialog.player_name
 import kotlinx.android.synthetic.main.player_name_dialog.view.player_name
+import projetkotlin.a5a.com.flappybird.persistence.room.DatabaseController
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
         */
 
+        DatabaseController.initDatabase(this)
         Navigation.findNavController(findViewById(R.id.navHostFragment)).navigate(R.id.fragment_start)
     }
 

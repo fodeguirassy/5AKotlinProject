@@ -12,56 +12,52 @@
         android:id="@+id/bird"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/flappy_ic"
-        tools:srcCompat="@drawable/flappy_ic"/>
+        tools:srcCompat="@drawable/flappy_ic" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fragment_play_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="@string/default_score"
+        android:textAppearance="@style/PlayTextViewAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="0"
-        android:text="@string/default_score"
-        android:layout_marginEnd="12dp"
-        android:id="@+id/fragment_play_score"
-        android:textAppearance="@style/TextViewAppearance"
-        />
+        tools:text="0" />
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/game_over"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/gameover"
-        tools:srcCompat="@drawable/gameover"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/game_over"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/gameover"
+        tools:srcCompat="@drawable/gameover" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/final_score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/game_over"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textAppearance="@style/TextViewAppearance"
         android:text="@string/final_score"
-        tools:text="@string/final_score"
         android:textAlignment="center"
-        android:id="@+id/final_score"
-        />
+        android:textAppearance="@style/PlayTextViewAppearance"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/game_over"
+        tools:text="@string/final_score" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/game_over_visibility_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/visibility_group"
-        app:constraint_referenced_ids="final_score, game_over"
         android:visibility="gone"
-        tools:visibility="visible"
-        />
+        app:constraint_referenced_ids="final_score, game_over"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

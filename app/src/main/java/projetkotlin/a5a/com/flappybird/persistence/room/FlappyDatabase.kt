@@ -6,5 +6,5 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [User::class], version = 1)
 abstract class FlappyDatabase : RoomDatabase() {
-    abstract fun userDao() : UserDao
+    abstract fun userDao(): UserDao
 }

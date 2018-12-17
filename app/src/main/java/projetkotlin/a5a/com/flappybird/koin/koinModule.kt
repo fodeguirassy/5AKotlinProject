@@ -1,12 +1,13 @@
 package projetkotlin.a5a.com.flappybird.koin
 
 import org.koin.dsl.module.module
+import projetkotlin.a5a.com.flappybird.feat.chart.ChartFragment
+import projetkotlin.a5a.com.flappybird.feat.chart.ChartPresenter
 import projetkotlin.a5a.com.flappybird.feat.play.PlayFragment
 import projetkotlin.a5a.com.flappybird.feat.play.PlayPresenter
 import projetkotlin.a5a.com.flappybird.feat.start.StartFragment
 import projetkotlin.a5a.com.flappybird.feat.start.StartPresenter
 import projetkotlin.a5a.com.flappybird.mvp.AbstractMVPFragment
-import projetkotlin.a5a.com.flappybird.persistence.room.DatabaseController
 
 val koinModule = module {
 
@@ -15,6 +16,6 @@ val koinModule = module {
     factory { StartPresenter() }
     factory { StartFragment() }
     factory { AbstractMVPFragment() }
-    //factory { DatabaseController.initDatabase(get())}
-
+    factory { ChartPresenter(get() as ChartFragment) }
+    factory { ChartFragment() }
 }

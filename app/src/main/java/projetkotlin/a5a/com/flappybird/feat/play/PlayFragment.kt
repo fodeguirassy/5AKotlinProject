@@ -7,7 +7,6 @@ import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_play.bird
 import kotlinx.android.synthetic.main.fragment_play.final_score
 import kotlinx.android.synthetic.main.fragment_play.fragment_play
 import kotlinx.android.synthetic.main.fragment_play.fragment_play_score
-import kotlinx.android.synthetic.main.fragment_play.visibility_group
+import kotlinx.android.synthetic.main.fragment_play.game_over_visibility_group
 import projetkotlin.a5a.com.flappybird.R
 import projetkotlin.a5a.com.flappybird.model.Pipe
 import projetkotlin.a5a.com.flappybird.model.PipeDrawable
@@ -227,7 +226,7 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
 
     override fun stopGame() {
         stopAnimations()
-        visibility_group.visibility = View.VISIBLE
+        game_over_visibility_group.visibility = View.VISIBLE
         fragment_play_score.visibility = View.GONE
         final_score.text = getString(R.string.final_score,
                 fragment_play_score.text.takeIf {
@@ -266,5 +265,9 @@ class PlayFragment : AbstractMVPFragment(), PlayContract {
                 }
             }
         }
+    }
+
+    override fun toastMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

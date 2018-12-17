@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:padding="22dp">
+
+    <TextView
+        android:id="@+id/score_index"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        tools:text="@sample/score_indexes"
+        android:text="1"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/colorPrimaryDark"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/score_index"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/score_index"
+        android:textSize="55sp"
+        tools:text="@sample/random_scores"
+        android:text="40"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:id="@+id/score"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/score_index"
+        app:layout_constraintBottom_toBottomOf="@id/score_index"
+        android:id="@+id/player_name"
+        app:layout_constraintStart_toEndOf="@id/score_index"
+        tools:text="@tools:sample/first_names"
+        android:textAppearance="@style/ChartTexviewAppearance"
+        android:textSize="20sp"
+        android:layout_marginStart="12dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/player_name"
+        app:layout_constraintStart_toStartOf="@id/player_name"
+        android:textAppearance="@style/ChartTexviewAppearance"
+        tools:text="@tools:sample/date/ddmmyy"
+        android:text="25 Jan 2018"
+        android:textSize="16sp"
+        android:id="@+id/score_date"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
