@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/cloudbackground"
         android:src="@drawable/nuage"
-        tools:src="@drawable/nuage"
-        app:layout_constraintTop_toBottomOf="@id/guidelineCloud" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineCloud"
+        tools:src="@drawable/nuage" />
 
     <ImageView
         android:id="@+id/cloudTwoBackground"
@@ -23,27 +23,27 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/cloudbackground"
         android:src="@drawable/nuage"
-        tools:src="@drawable/nuage"
-        app:layout_constraintLeft_toRightOf="@id/cloudOneBackground" />
+        app:layout_constraintLeft_toRightOf="@id/cloudOneBackground"
+        tools:src="@drawable/nuage" />
 
     <ImageView
         android:id="@+id/cloudThreeBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/nuage"
-        tools:src="@drawable/nuage"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cloudTwoBackground" />
+        app:layout_constraintTop_toBottomOf="@id/cloudTwoBackground"
+        tools:src="@drawable/nuage" />
 
     <ImageView
         android:id="@+id/iconBird"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/flappy_ic"
-        tools:src="@drawable/flappy_ic"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guidelinBirdIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/guidelinBirdIcon"
+        tools:src="@drawable/flappy_ic" />
 
     <TextView
         android:id="@+id/appTitle"
@@ -52,10 +52,10 @@
         android:text="@string/appTitle"
         android:textColor="@color/colorAppTitle"
         android:textSize="60sp"
-        tools:text="@string/appTitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineAppTitle" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineAppTitle"
+        tools:text="@string/appTitle" />
 
     <ImageButton
         android:id="@+id/buttonPlay"
@@ -63,10 +63,10 @@
         android:layout_height="wrap_content"
         android:background="@color/blueSky"
         android:src="@drawable/icon_play"
-        tools:src="@drawable/icon_play"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/buttonHighScore"
-        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption"
+        tools:src="@drawable/icon_play" />
 
     <ImageButton
         android:id="@+id/buttonHighScore"
@@ -74,10 +74,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/icon_highscore"
         android:src="@drawable/icon_highscore"
-        tools:src="@drawable/icon_highscore"
         app:layout_constraintLeft_toRightOf="@id/buttonPlay"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineButtonOption"
+        tools:src="@drawable/icon_highscore" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineCloud"

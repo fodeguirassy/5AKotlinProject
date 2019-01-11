@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.koin.android.ext.android.inject
 
 
 abstract class AbstractFragment : Fragment() {
 
-    abstract val defaultLayout : Int
+    abstract val defaultLayout: Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(defaultLayout, container, false)

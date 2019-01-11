@@ -1,11 +1,8 @@
 package projetkotlin.a5a.com.flappybird.feat.play
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.Timed
 import projetkotlin.a5a.com.flappybird.R
@@ -113,6 +110,7 @@ class PlayPresenter(val view: PlayContract) : BasePresenter {
                     scoreDate = Date().time)
 
             DatabaseController.getAllFlappyUsers()
+                    .subscribeOn(Schedulers.io())
                     .subscribe(
                             {
                                 with(it.size) {

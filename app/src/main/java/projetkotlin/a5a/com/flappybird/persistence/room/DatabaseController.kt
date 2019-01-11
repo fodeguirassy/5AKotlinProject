@@ -25,7 +25,7 @@ object DatabaseController {
                 .subscribeOn(Schedulers.io())
     }
 
-    //TODO REMOVE
+    //TODO FOR TESTS PURPOSES ONLY
     @SuppressLint("CheckResult")
     fun dumpTab() {
 
@@ -41,11 +41,7 @@ object DatabaseController {
                         {
                             //Convenient logging
                             Log.v("SUERS_ERR", "${it.printStackTrace()}")
-
                         })
-
-
     }
-
 
 }

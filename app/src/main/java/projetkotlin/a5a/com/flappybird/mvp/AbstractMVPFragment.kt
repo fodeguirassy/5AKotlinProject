@@ -8,7 +8,7 @@ open class AbstractMVPFragment : AbstractFragment() {
 
     override val defaultLayout: Int = 0
 
-    open val presenter : BasePresenter by inject()
+    open val presenter: BasePresenter by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
